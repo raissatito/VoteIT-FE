@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:8000";
+const baseUrl = "http://35.223.128.34:8000";
 
 const getConfig = () => {
   return {
@@ -70,6 +70,15 @@ export const getVoteOptions = async (roomId) => {
 export const vote = async (body) => {
     try {
         const response = await axios.post(`${baseUrl}/vote`, body, getAuthConfig());
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const endVote = async (body) => {
+    try {
+        const response = await axios.post(`${baseUrl}/end-vote`, body, getAuthConfig());
         return response.data;
     } catch (error) {
         console.log(error);

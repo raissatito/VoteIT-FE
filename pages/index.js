@@ -56,8 +56,9 @@ export default function Home() {
 
   const [socket, setSocket] = useState(null);
 
+  const baseUrl = "35.223.128.34:8000"
   useEffect(() => {
-    const newSocket = new WebSocket('ws://localhost:8000/ws/rooms/');
+    const newSocket = new WebSocket(`ws://${baseUrl}/ws/rooms/`);
     setSocket(newSocket);
 
     return () => newSocket.close();
@@ -68,6 +69,7 @@ export default function Home() {
 
     const handleMessage = event => {
       const data = JSON.parse(event.data);
+      console.log(data)
       setRooms(data);
     };
 
@@ -97,10 +99,14 @@ export default function Home() {
       const room_id = v4()
       const body = { room_id, name, is_private }
       const voteBody = { room_id, vote_option }
-      createRoom(body).then(() => {
-        createVoteOptions(voteBody).then(() => {
-          router.push(`/${room_id}`)
-        })
+      createRoom(body).then((res) => {
+        if (res) {
+          createVoteOptions(voteBody).then((res) => {
+            if (res) {
+            router.push(`/${room_id}`)
+            }
+          })
+        }
       })
     }
   }
@@ -114,15 +120,12 @@ export default function Home() {
       <Navbar className="fixed"/>
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 mt-20">
         {rooms.map((room, index) => (
-        <div onClick={() => openRoom(room.room_id)} key={index} className="card w-96 bg-primary text-primary-content justify-self-center">
+        <div onClick={() => openRoom(room.room_id)} key={index} className="card w-96 bg-base-200 text-base-content justify-self-center">
           <div className="card-body">
             <h2 className="card-title">{room.name}</h2>
             <div className="flex items-center">
               <BsPersonFill className='mr-3' />
               <p>{room.creator_id}</p>
-            </div>
-            <div className="card-actions justify-end">
-              <span>20 Participants</span>
             </div>
           </div>
         </div>
