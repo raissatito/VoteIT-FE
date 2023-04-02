@@ -80,7 +80,7 @@ export default function Navbar() {
                 {notifications.map((notification, index) => (
                   <li key={index}>
                     <Link href={`/${notification.room_id}`}>
-                      "{notification.name}" Voting has ended, check the result!
+                      {notification.name} Voting has ended, check the result!
                     </Link>
                   </li>
                 ))}
