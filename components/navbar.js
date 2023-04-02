@@ -2,7 +2,7 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { logout, getUser } from '@/helpers/auth'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { IoIosNotificationsOutline } from 'react-icons/io'
+import Link from 'next/link'
 import { VscBell, VscBellDot } from 'react-icons/vsc'
 
 export default function Navbar() {
@@ -20,13 +20,18 @@ export default function Navbar() {
       getUser().then((res) => {
         setUsername(res.username)
       })
+      console.log(router.pathname)
     }
   }, [])
 
   const callLogout = () => {
     logout().then((res) => {
       if (res) {
+        if (router.pathname != "/") {
         router.push('/')
+        } else {
+          router.reload()
+        }
       }
     })
   }
@@ -63,8 +68,9 @@ export default function Navbar() {
     <div className="flex m-5">
       <div className="navbar bg-base-200 rounded-box">
         <div className="flex-1">
-          <a href="/" className="btn btn-ghost normal-case text-xl">VoteIT</a>
-
+        <Link className="btn btn-ghost normal-case text-xl" href="/">
+          VoteIT
+        </Link>
           {token != null && (
             <div className="dropdown dropdown-right">
               <button tabIndex={1} className="btn btn-ghost btn-circle">
@@ -73,7 +79,9 @@ export default function Navbar() {
               <ul tabIndex={1} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-96">
                 {notifications.map((notification, index) => (
                   <li key={index}>
-                    <a href={`/${notification.room_id}`}>"{notification.name}" Voting has ended, check the result! </a>
+                    <Link href={`/${notification.room_id}`}>
+                      "{notification.name}" Voting has ended, check the result!
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -90,8 +98,16 @@ export default function Navbar() {
             </a>
             {token == null ? (
               <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>
+                <li>
+                  <Link href="/login">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/register">
+                    Register
+                  </Link>
+                </li>
               </ul>
             )
               : <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">

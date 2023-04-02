@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { login } from '@/helpers/auth';
+import Link from 'next/link';
 import Navbar from '@/components/navbar';
 
 
@@ -46,7 +47,9 @@ export default function Login() {
                                 <span className="label-text">Password</span>
                             </label>
                             <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="" className="input input-bordered w-full max-w-xs" />
-                            <a href="/register" className="link mt-5">Don't Have Account? Register Here!</a>
+                            <Link className="link mt-5" href="/register">
+                                Don't Have Account? Register Here!
+                            </Link>
                         </div>
                         <div className="card-actions mt-5 justify-end">
                             <button onClick={postLogin} className="btn btn-primary">Login</button>
