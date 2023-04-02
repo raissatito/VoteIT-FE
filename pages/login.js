@@ -48,7 +48,7 @@ export default function Login() {
                             </label>
                             <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="" className="input input-bordered w-full max-w-xs" />
                             <Link className="link mt-5" href="/register">
-                                Don't Have Account? Register Here!
+                                Do not Have Account? Register Here!
                             </Link>
                         </div>
                         <div className="card-actions mt-5 justify-end">
